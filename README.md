@@ -4,28 +4,27 @@ A lightweight PostgreSQL data mapper that likes SQL.
 
 ## Install
 
-To use mapper
+To install
 
     npm install mapper-pg --save
 
-To test
+To test it
 
     npm install -d
     make test
 
-The run Backbone Todo example in `example/app.js`
+To run Backbone example
 
-    make test       # creates the necessary database and table
-    make server     # runs the server, browse http://localhost:3000
+    make test             # creates the necessary database and table
+    node example/app.js   # runs the server, browse http://localhost:3000
 
-## TODOS
+## TODO
 
-* Better connection pooling
-* Transactions
+* Transaction support
 
 ## Documentation
 
-Please see the comprehensive tests in `test/integration/integrationTest.js`.
+See comprehensive tests in `test/integration/integrationTest.js`.
 
 
 ## Quickstart
@@ -35,20 +34,20 @@ Require it
 
     var Mapper = require('mapper-pg');
 
-Define Data Access Objects (DAO)
+Define Data Access Objects (DAO) for each table
 
-    // Nothing complicated, just table name and optional primary key
+    // simple, only table name with optional primary key
     var Comment = Mapper.map('Comments');
     var Post = Mapper.map('Posts', 'id');
 
-Define Relationships Beetween DAOS, see `lib/relation.js`
+Define relationships beetween DAOS, see `lib/relation.js`
 
     Post.hasMany('comments', Comment, 'postId');
     Comment.belongsTo('post', Post, 'postId');
 
-Initialize it
+Initialize
 
-    // set verbose flag to trace SQL, set strict to be warned of invalid columns in JSON objects
+    // set `verbose`  to trace SQL, set `strict` for invalid column warnings
     var config = { user: 'boo', password: 'secret', database: 'app_dev', verbose: true, strict: false };
 
     Mapper.initialize(config, function(err) {
@@ -56,7 +55,7 @@ Initialize it
     });
 
 
-## CRUD
+## CRUD Examples
 
 Create
 
@@ -124,8 +123,7 @@ the second page of comments for each post retrieved.
 
 Or, mix SQL
 
-    var sql = ('SELECT id, title, excerpt FROM `Posts` \
-                ORDER BY id DESC LIMIT 25';
+    var sql = ('SELECT id, title, excerpt FROM Posts ORDER BY id DESC LIMIT 25';
 
     Post.all(sql, function(err, posts) {
       Post.load('comments', function(c) {

@@ -1,9 +1,10 @@
-var async = require("async");
-var config = require("../../.mapper.json");
+var async = require('async');
+var config = require('../../.mapper.json');
 var pg = require('pg');
+var verbose = false;
 
 
-function testMysql(cb) {
+function testPostgresql(cb) {
   pg.connect(config, function(err, client) {
     if (err) return cb(err);
 
@@ -15,12 +16,12 @@ function testMysql(cb) {
         iteration++;
         if (iteration % 2 === 0) {
           client.query("insert into users(user_name, first_name, last_name) values('pg', 'is', 'cool');", function(err, result) {
-            if (iteration === 2) console.log(result);
+            if (verbose && iteration === 2) console.log(result);
             cb(err);
           });
         } else {
-          client.query("select user_name, first_name, last_name from users limit 50;", function(err, result) {
-            if (iteration === 3) console.log(result.rows);
+          client.query('select user_name, first_name, last_name from users limit 50;', function(err, result) {
+            if (verbose && iteration === 3) console.log(result.rows);
             cb(err);
           });
         }
@@ -35,7 +36,7 @@ function testMysql(cb) {
 }
 
 
-testMysql(function(err) {
+testPostgresql(function(err) {
   if (err) console.error(err);
   process.exit();
 });

@@ -12,11 +12,11 @@ var Todo = Mapper.map("todos");
 
 function configMapper(cb) {
   // Configuration is created by `make test`
-  var jsonConfig = path.join(__dirname, '..', '.mapper.json');
-  if (!fs.existsSync(jsonConfig)) {
-    return cb('Please run `make test` first to create the configuration.');
+  var configJson = path.join(__dirname, '..', '.mapper.json');
+  if (!fs.existsSync(configJson)) {
+    return cb('Run `make test` to create config file and database.');
   }
-  var config = require('../.mapper.json');
+  var config = require(configJson);
   //config.verbose = true; // uncomment to see SQL trace
   Mapper.initialize(config, cb);
 }
@@ -35,30 +35,31 @@ function configRoutes(cb) {
     res.redirect('/todos.html');
   });
 
-  app.get('/api/todos', function(req, res){
-    return Todo.all(function(err, todos) {
+  app.get('/api/todos', function(req, res, next){
+    Todo.all(function(err, todos) {
+      if (err) return next(err);
       res.json(todos);
     });
   });
 
   app.get('/api/todos/:id', function(req, res, next){
-    return Todo.where({id: req.params.id}).first(function(err, todo) {
+    Todo.findById(req.params.id, function(err, todo) {
       if (err) return next(err);
       res.json(todo);
     });
   });
 
   app.put('/api/todos/:id', function(req, res, next){
-    return Todo.where({id: req.params.id}).first(function(err, todo) {
-      if (err) return next(err);
-      todo.text = req.body.text;
-      todo.done = req.body.done;
-      todo.order = req.body.order;
+    var todo = {
+      id: req.params.id,
+      text: req.body.text,
+      done: req.body.done,
+      order: req.body.order
+    };
 
-      Todo.save(todo, function(err) {
-        if (err) return next(err);
-        res.json(todo);
-      });
+    Todo.save(todo, function(err) {
+      if (err) return next(err);
+      res.json(todo);
     });
   });
 
@@ -71,13 +72,13 @@ function configRoutes(cb) {
 
     Todo.create(todo, function(err, row) {
       if (err) return next(err);
-      todo.id = row.id; // set inserted id
+      todo.id = row.id; // set inserted id for Backbone
       res.json(todo);
     });
   });
 
   app.delete('/api/todos/:id', function(req, res, next) {
-    return Todo.deleteById(req.params.id, function(err) {
+    Todo.deleteById(req.params.id, function(err) {
       if (err) return next(err);
       res.send('');
     });
