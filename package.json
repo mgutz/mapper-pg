@@ -1,6 +1,6 @@
 {
   "name": "mapper-pg",
-  "version": "0.1.0-pre",
+  "version": "0.1.1-dev",
   "description": "A lightweight PostgreSQL data mapper that likes SQL.",
   "tags": [
     "odm",
@@ -14,14 +14,14 @@
   },
   "homepage": "https://github.com/mgutz/mapper-pg",
   "dependencies": {
-    "async": "~0.1.22",
-    "pg": "~0.10.2",
-    "lodash": "~1.0.0-rc.3"
+    "async": "~0.2.7",
+    "pg": "~1.0.0",
+    "lodash": "~1.1.1"
   },
   "devDependencies": {
-    "mocha": "~1.7.4",
-    "chai": "~1.4.2",
-    "underscore.string": "~2.3.1",
+    "mocha": "*",
+    "chai": "*",
+    "underscore.string": "*",
     "express": "~3.0.6"
   },
   "main": "index",

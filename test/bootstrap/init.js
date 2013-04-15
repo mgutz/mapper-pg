@@ -83,7 +83,7 @@ async.series({
 
   function createDatabase(cb) {
     var copy = _.clone(config);
-    delete(copy.database);
+    copy.database = 'postgres';
 
     // create the database
     db.connect(utils.buildConnectionString(copy), function(err, client) {
