@@ -22,9 +22,7 @@
     "mocha": "*",
     "chai": "*",
     "underscore.string": "*",
-    "express": "~3.0.6",
-    "pg.js": "^3.0.4",
-    "pg": "^3.0.3"
+    "express": "~3.0.6"
   },
   "main": "index",
   "scripts": {
