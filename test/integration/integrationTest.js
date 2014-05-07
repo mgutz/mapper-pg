@@ -456,6 +456,20 @@ describe("Dao", function() {
         });
     });
 
+    it('should load with callback options args', function(done) {
+      Post
+        .select('id, blurb, published')
+        .where({'blurb like': '%Some blurb%', published: true})
+        .load('comments', function(c) {
+          c.select('id', 'post_id', 'comment')
+           .order('id');
+        })
+        .all(function(err, results) {
+          assert.equal(2, results[0].comments.length);
+          done();
+        });
+    });
+
     it('should get the associated rows of a hasManyThrough relationship', function(done) {
       Post
         .where({id: 1})

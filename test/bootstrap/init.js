@@ -1,7 +1,7 @@
 var prompt = require("./prompt");
 var fs = require('fs');
 var async = require("async");
-var db = require("pg");
+var db = require("pg.js");
 var _ = require('lodash');
 var utils = require('../../lib/utils');
 

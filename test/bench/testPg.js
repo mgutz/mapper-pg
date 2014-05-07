@@ -1,6 +1,6 @@
 var async = require('async');
 var config = require('../../.mapper.json');
-var pg = require('pg');
+var pg = require('pg.js');
 var verbose = false;
 
 

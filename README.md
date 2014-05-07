@@ -47,9 +47,17 @@ Define relationships beetween DAOS, see `lib/relation.js`
 
 Initialize
 
-    // set `verbose`  to trace SQL, set `strict` for invalid column warnings
-    var config = { user: 'boo', password: 'secret', database: 'app_dev', verbose: true, strict: false };
+    var config = {
+        user: 'boo',
+        password: 'secret',
+        database: 'app_dev',
+        verbose: true,        // to trace SQL
+        strict: false,        // to check for invalid column warnings
+        driver: require('pg') // optional, if not set then pure javascript
+                              // version is used
+    };
 
+    // this must be called after all DAOs have been defined
     Mapper.initialize(config, function(err) {
         // setup express, etc
     });
