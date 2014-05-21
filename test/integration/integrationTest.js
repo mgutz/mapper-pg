@@ -404,6 +404,15 @@ describe("Dao", function() {
 
 
   describe("Relations", function() {
+
+    it('should returned undefined if select returns nothing and trying to load', function(done) {
+      Post.where('id = ?', [1000]).load('moreDetails').first(function(err, post) {
+        assert.equal(post, undefined);
+        done();
+      });
+    });
+
+
     it('should load child of hasOne relationship', function(done) {
       Post.where('id = ?', [1]).load('moreDetails').first(function(err, post) {
         assert.equal(post.moreDetails.extra, 'extra');
