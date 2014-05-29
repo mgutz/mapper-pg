@@ -28,7 +28,6 @@ describe("Client", function() {
     });
   });
 
-
   it('should get a scalar value parameterized', function(done) {
     client.scalar('select count(*) from information_schema.columns where table_name =  ?', ['posts'], function(err, count) {
       assert.ifError(err);
